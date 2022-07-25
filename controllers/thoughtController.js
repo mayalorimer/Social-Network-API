@@ -1,1 +1,1 @@
-const Thought = require('../models/Thought');
+const Thoughts = require('../models/Thought');
