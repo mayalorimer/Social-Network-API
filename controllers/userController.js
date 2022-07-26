@@ -59,6 +59,8 @@ const usersController = {
         .catch(err => res.json(err))
     },
 
+    // fix this
+
     // delete a user
     deleteUser(req, res){
         Users.findOneAndRemove({ _id: req.params.userId})
