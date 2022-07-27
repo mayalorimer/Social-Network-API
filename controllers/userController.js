@@ -18,21 +18,21 @@ const usersController = {
 
     // get one user
     getSingleUser(req, res) {
-        Users.findOne({ _id: req.params.userId })
-        .populate([
-            { path: 'thoughts', select: "-__v"},
-            { path: 'friends', select: "-__v"},
-        ])
+        Users.findOne({ _id: req.params.id })
+            .populate({path: 'thoughts', select: '-__v'})
+            .populate({path: 'friends', select: '-__v'})
             .select('-__v')
-            .then(async (user) => 
-            !user
-            ? res.status(404).json({ message: 'No user with that ID'})
-            : res.json({ user })
-            )
-            .catch((err) => {
-                console.log(err);
-                return res.status(500).json(err); 
-            });
+            .then(dbUsersData => {
+                if(!dbUsersData) {
+                    res.status(404).json({message: 'No User with this ID!'});
+                    return; 
+                }
+                res.json(dbUsersData)
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(400).json(err)
+            })       
     },
 
     // create a new user
@@ -63,15 +63,17 @@ const usersController = {
 
     // delete a user
     deleteUser(req, res){
-        Users.findOneAndRemove({ _id: req.params.userId})
+        Users.findOneAndRemove({ _id: req.params.id})
             .then((user) => 
             !user
             ? res.status(404).json({ message: 'No such user exists' })
-            : Thoughts.findOneAndUpdate(
-                { users: req.params.userId },
-                { $pull: { users: req.params.userId }},
+            : 
+/*              Thoughts.findOneAndUpdate(
+                 { username: req.params.userId },
+                 { $pull: { users: req.params.userId }},
                 { new: true }
-            )
+            ) */
+            res.json(user)
         )
         .catch((err) => {
             console.log(err);
