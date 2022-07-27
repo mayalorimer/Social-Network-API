@@ -12,7 +12,7 @@ Run ```node index.js``` to initialize the application and create the network
 
 ## Links
 - Github Repo: https://github.com/mayalorimer/Social-Network-API
-- Walkthrough Video:
+- Walkthrough Video: https://youtu.be/QwGAFh02Hz8 
 
 ## License
 
